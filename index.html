@@ -38,6 +38,7 @@ textarea {
 #results {
 	display: flex;
 	flex-flow: row wrap;
+	justify-content: flex-start;
 }
 .result {
 	text-transform: uppercase;
@@ -46,6 +47,18 @@ textarea {
 	padding: 5px;
 	min-width: 100px;
 	text-align: center;
+}
+@media screen and (max-width: 1000px) {
+	textarea {
+		width: 100%;
+		font-size: 500%;
+	}
+	.result {
+		font-size: 300%;
+		min-width: 300px;
+		flex-grow: 1;
+
+	}
 }
 </style>
 <script>
