@@ -25,7 +25,12 @@ body {
 	flex-flow: row wrap;
 }
 textarea {
-	width: 50%;
+	width: 40%;
+}
+#length {
+	width: 20%;
+}
+#length, textarea {
 	margin: 0px;
 	padding: 0px;
 	box-shadow: none;
@@ -35,13 +40,16 @@ textarea {
 	font-size: 200%;
 	text-align: center;
 	resize: none;
+	text-transform: uppercase;
 }
 #results {
 	display: flex;
 	flex-flow: row wrap;
 	justify-content: flex-start;
+	clear: both;
 }
 #go {
+	width: 100%;
 	font-size: 200%;
 	flex-grow: 1;
 }
@@ -96,17 +104,23 @@ Array.prototype.define("diff", function(a2) {
 Array.prototype.define("each", Array.prototype.forEach)
 let abc = ("QWERTYUIOPASDFGHJKLZXCVBNM").split(/ */)
 $(function() {
+
 	$('#pool').val(localStorage.getItem('pool').trim() || '')
 	$('#term').val(localStorage.getItem('term').trim() || '')
-	let pool, i
+	$('#length').val($('#term').val().length)
+	let pool, def, i
 	$('#results').html('')
-	// $('#pool, #term').keyup(function() {
-	// 	$('#pool').val($('#pool').val().toUpperCase())
-	// 	$('#term').val($('#term').val().toUpperCase())
-	// })
-	// $('#pool, #term').change(function() {
-	// 	$('#go').click()
-	// })
+	$('#pool, #term').keyup(function() {
+		$('#pool').val($('#pool').val().toUpperCase())
+		$('#term').val($('#term').val().toUpperCase())
+		$('#go').click()
+
+		$('#length').val($('#term').val().length)
+	})
+	$('#length').click(function() {
+		$('#term').val("_".repeat($(this).val()))
+		$('#go').click()
+	})
 	$('#go').click(function(e) {
 		localStorage.setItem('pool', $('#pool').val().trim())
 		localStorage.setItem('term', $('#term').val().trim())
@@ -117,10 +131,16 @@ $(function() {
 			term: $('#term').val()
 		}, function(d) {
 			$('#results').html('')
-			pool = $("#pool").val().split(/ */).diff(abc)
+			pool = $("#pool").val()
+			def = pool.split(/ */).diff(abc)
 			Object.values(JSON.parse(d)).each(function(word) {
-				for(i = 0; i < pool.length; i++) {
-					if (word.includes(pool[i])) {
+				for(i = 0; i < def.length; i++) {
+					if (word.includes(def[i])) {
+						return
+					}
+				}
+				for(i = 0; i < word.length; i++) {
+					if (word.split(word[i]).length - 1 > pool.split(word[i]).length - 1) {
 						return
 					}
 				}
@@ -134,6 +154,7 @@ $(function() {
 </head>
 <body>
 	<textarea rows=1 id=pool>QHNVEFCEEISPSL</textarea>
+	<input type='number' id=length value=1 min=2 />
 	<textarea rows=1 id=term>______</textarea>
 	<button id=go>Go</button>
 	<div id=results></div>

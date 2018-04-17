@@ -25,7 +25,7 @@ if ($term) {
 
 }
 
-$words = array_map("trim", file('wordlist.txt'));
+$words = array_map("trim", file('20k.txt'));
 $term = strToLower($term);
 $pos = strpos($term, "_");
 $results = [];
