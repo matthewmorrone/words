@@ -1,7 +1,9 @@
+
 <!DOCTYPE html>
 <html>
 <head>
 <title>Word Helper</title>
+<meta name="viewport" content="width=device-width, initial-scale=0.5, user-scalable=no">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="shortcut icon" type="image/x-icon" href="http://www.matthewmorrone.com/psi.ico" />
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js"></script>
@@ -39,6 +41,10 @@ textarea {
 	flex-flow: row wrap;
 	justify-content: flex-start;
 }
+#go {
+	font-size: 200%;
+	flex-grow: 1;
+}
 .result {
 	text-transform: uppercase;
 	border: 2px dashed grey;
@@ -52,11 +58,10 @@ textarea {
 		width: 100%;
 		font-size: 500%;
 	}
-	.result {
+	.result, #go {
 		font-size: 300%;
 		min-width: 300px;
 		flex-grow: 1;
-
 	}
 }
 </style>
@@ -91,14 +96,18 @@ Array.prototype.define("diff", function(a2) {
 Array.prototype.define("each", Array.prototype.forEach)
 let abc = ("QWERTYUIOPASDFGHJKLZXCVBNM").split(/ */)
 $(function() {
-	$('#pool').val(localStorage.getItem('pool').trim())
-	$('#term').val(localStorage.getItem('term').trim())
+	$('#pool').val(localStorage.getItem('pool').trim() || '')
+	$('#term').val(localStorage.getItem('term').trim() || '')
 	let pool, i
 	$('#results').html('')
-	$('#pool, #term').keyup(function() {
-		$(this).val($(this).val().toUpperCase())
-	})
-	$('#pool, #term').blur(function(e) {
+	// $('#pool, #term').keyup(function() {
+	// 	$('#pool').val($('#pool').val().toUpperCase())
+	// 	$('#term').val($('#term').val().toUpperCase())
+	// })
+	// $('#pool, #term').change(function() {
+	// 	$('#go').click()
+	// })
+	$('#go').click(function(e) {
 		localStorage.setItem('pool', $('#pool').val().trim())
 		localStorage.setItem('term', $('#term').val().trim())
 		$('#results').html('')
@@ -119,13 +128,14 @@ $(function() {
 			})
 			document.title = $('.result').length+" results"
 		}, 'text')
-	}).blur()
+	}).click()
 })
 </script>
 </head>
 <body>
-	<textarea rows=1 id=pool></textarea>
-	<textarea rows=1 id=term></textarea>
+	<textarea rows=1 id=pool>QHNVEFCEEISPSL</textarea>
+	<textarea rows=1 id=term>______</textarea>
+	<button id=go>Go</button>
 	<div id=results></div>
 </body>
 </html>
