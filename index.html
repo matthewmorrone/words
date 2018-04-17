@@ -23,7 +23,6 @@ body {
 	flex-flow: row wrap;
 }
 textarea {
-	/*text-transform: uppercase;*/
 	width: 50%;
 	margin: 0px;
 	padding: 0px;
@@ -96,6 +95,9 @@ $(function() {
 	$('#term').val(localStorage.getItem('term').trim())
 	let pool, i
 	$('#results').html('')
+	$('#pool, #term').keyup(function() {
+		$(this).val($(this).val().toUpperCase())
+	})
 	$('#pool, #term').blur(function(e) {
 		localStorage.setItem('pool', $('#pool').val().trim())
 		localStorage.setItem('term', $('#term').val().trim())
